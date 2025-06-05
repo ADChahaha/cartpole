@@ -16,7 +16,7 @@ epochs = 600
 # epochs = 1240
 batch_size = 64
 batch_length = 10
-C = 40
+C = 20
 step = 0
 
 
@@ -29,7 +29,7 @@ logger = tensorboard.writer.SummaryWriter()
 
 # 模型
 model = MLP(in_features=4, out_features=2, depth=3, num_cells=64)
-model.load_state_dict(torch.load('weight99.pth'))
+model.load_state_dict(torch.load('best.pth'))
 target_model = MLP(in_features=4, out_features=2, depth=3, num_cells=64)
 target_model.requires_grad_(False)
 target_model.load_state_dict(model.state_dict())
@@ -104,14 +104,10 @@ for i in range(epochs):
         optimizer.step()
     if i % C == 0:
         target_model.load_state_dict(model.state_dict())
-        torch.save(model.state_dict(), f="weight99.pth")
+        torch.save(model.state_dict(), f="weight80.pth")
     logger.add_scalar("loss", avg_loss.compute(), i)
     logger.add_scalar("lr", optimizer.param_groups[0]['lr'], i)
     logger.add_scalar("q_value", avg_q_value.compute(), i)
     logger.add_scalar("target_q_sa", avg_target_q_value.compute(), i)
     logger.add_scalar("diff", avg_diff.compute(), i)
     schduler.step(i)
-
-
-
- 
