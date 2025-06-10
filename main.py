@@ -31,11 +31,11 @@ class GameWindow:
         self.diffculty_window.hard.clicked.connect(lambda : self.on_diffculty_selected_clicked('hard'))
         self.diffculty_window.middle.clicked.connect(lambda : self.on_diffculty_selected_clicked('middle'))
         self.diffculty_window.easy.clicked.connect(lambda : self.on_diffculty_selected_clicked('easy'))
-
+        self.stack.resize(800, 600)
         self.stack.show()
 
     def on_start_game_clicked(self):
-        self.window.hide()
+        self.stack.hide()
         step = play.start_game(True, True, frame_time=self.frame_time)
         messagebox = QtWidgets.QMessageBox()
         if step == self.win_step:
@@ -43,25 +43,25 @@ class GameWindow:
         else:
             messagebox.setText(f'You failed with step {step}')
         messagebox.exec_()
-        self.window.show()
+        self.stack.show()
     
     def on_auto_mode_clicked(self):
-        self.window.hide()
-        step = play.start_game(False,False, frame_time=self.frame_time)
+        self.stack.hide()
+        step = play.start_game(False,False, frame_time=0.05)
         messagebox = QtWidgets.QMessageBox()
         if step == self.win_step:
             messagebox.setText(f'You win!')
         else:
             messagebox.setText(f'You failed with step {step}')
         messagebox.exec_()
-        self.window.show()
+        self.stack.show()
     
     def on_game_introduction_clicked(self):
-        self.window.hide()
+        self.stack.hide()
         # 显示介绍页面
         self.game_introduction_window.exec_()
         #回到主菜单
-        self.window.show()
+        self.stack.show()
 
     def on_diffculty_change_clicked(self):
         self.stack.setCurrentWidget(self.diffculty_window)
